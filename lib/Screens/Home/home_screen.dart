@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mne/Provider/auth_provider.dart';
 import 'package:mne/Reusable%20components/text_field.dart';
 import 'package:mne/Screens/Details/my_detail_screen.dart';
+import 'package:mne/Screens/My%20Entries/my_entries_screen.dart';
 import 'package:mne/Screens/New%20Entry/new_entry_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final item = Provider.of<AuthProvider>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -39,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     weight: FontWeight.w400),
               ),
               Text(
-                "Jyana Ranjan!",
+                "${item.user?.name ?? ""}!",
                 style: textFieldStyle(
                     color: Color(0xffEE2631),
                     fontSize: 32.sp,
@@ -60,9 +64,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         Image.asset("assets/newentry.png", fit: BoxFit.cover)),
               ),
               SizedBox(height: 20.h),
-              Container(
-                  width: double.infinity,
-                  child: Image.asset("assets/entries.png", fit: BoxFit.cover))
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return MyEntryScreen();
+                    },
+                  ));
+                },
+                child: Container(
+                    width: double.infinity,
+                    child:
+                        Image.asset("assets/entries.png", fit: BoxFit.cover)),
+              )
             ],
           ),
         ),
