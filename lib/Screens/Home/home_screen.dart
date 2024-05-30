@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mne/Provider/auth_provider.dart';
 import 'package:mne/Reusable%20components/text_field.dart';
-import 'package:mne/Screens/Details/my_detail_screen.dart';
 import 'package:mne/Screens/My%20Entries/my_entries_screen.dart';
 import 'package:mne/Screens/New%20Entry/new_entry_screen.dart';
 import 'package:provider/provider.dart';
