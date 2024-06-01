@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mne/Modals/entry.dart';
+import 'package:mne/Modals/party.dart';
+import 'package:mne/Modals/user.dart';
 import 'package:mne/Provider/auth_provider.dart';
+import 'package:mne/Provider/entry_provider.dart';
 import 'package:mne/Screens/Auth/login_screen.dart';
 import 'package:mne/Screens/Home/landing_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +17,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(EntryModelAdapter());
+  Hive.registerAdapter(PartyModelAdapter());
+  Hive.registerAdapter(UserModelAdapter());
+  Hive.registerAdapter(PictureAdapter());
+  Hive.registerAdapter(BagsModelAdapter());
+  await Hive.openBox<EntryModel>('entryBox');
+  await Hive.openBox<PartyModel>('partyBox');
 
   runApp(MyApp());
   SystemChrome.setPreferredOrientations(
@@ -41,6 +55,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => EntryProvider()),
       ],
       child: ScreenUtilInit(
         builder: (context, child) {
@@ -66,12 +81,11 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationState extends State<NavigationScreen> {
   bool splash = false;
+
   void navigationPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("userToken");
-
-    print("$token tanay123token");
-
+    log("$token");
     await Future.delayed(const Duration(seconds: 2));
     setState(() {
       splash = true;

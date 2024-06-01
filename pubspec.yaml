@@ -33,7 +33,7 @@ dependencies:
   flutter_easyloading:
   provider:
   vibration:
-  connectivity_plus:
+  connectivity_plus: ^6.0.3
   audioplayers:
   easy_sticky_header:
   percent_indicator:
@@ -46,6 +46,9 @@ dependencies:
   flutter_svg:
   path_provider:
   dropdown_search: 5.0.6
+  logger:
+  hive: ^2.2.3
+  hive_flutter:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -55,12 +58,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator:
+  build_runner:
 
 flutter:
-    uses-material-design: true
-    assets:
- 
-      - assets/
+  uses-material-design: true
+  assets:
+
+    - assets/
 
 
   # To add custom fonts to your application, add a fonts section here,
@@ -68,10 +73,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-    # fonts:
-    # - family: NotoSans
-    #   fonts:
-    #     - asset: assets/fonts/NotoSans-Medium.ttf
+  # fonts:
+  # - family: NotoSans
+  #   fonts:
+  #     - asset: assets/fonts/NotoSans-Medium.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

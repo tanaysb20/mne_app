@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:mne/Modals/party.dart';
 import 'package:mne/Provider/auth_provider.dart';
 import 'package:mne/Reusable%20components/custom_button.dart';
 import 'package:mne/Reusable%20components/text_field.dart';
@@ -76,6 +78,10 @@ class _MyDetailsScreenState extends State<MyDetailsScreen> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.clear();
+                    var partyBox = Hive.box<PartyModel>('partyBox');
+                    await partyBox.deleteAll(partyBox.keys);
+                    var entryBox = Hive.box<PartyModel>('entryBox');
+                    await entryBox.deleteAll(entryBox.keys);
                     if (context.mounted) {
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(

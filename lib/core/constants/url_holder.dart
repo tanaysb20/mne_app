@@ -3,4 +3,5 @@ class UrlHolder {
 
   static const login = "auth";
   static const getParty = "party";
+  static const getEntry = "entry";
 }

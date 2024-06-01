@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:mne/Modals/party.dart';
 import 'package:mne/Provider/auth_provider.dart';
+import 'package:mne/Provider/entry_provider.dart';
 import 'package:mne/Reusable%20components/text_field.dart';
 import 'package:mne/Screens/Details/my_detail_screen.dart';
 import 'package:mne/Screens/Home/home_screen.dart';
@@ -17,20 +20,22 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
     setState(() {
       isLoading = true;
     });
-    Provider.of<AuthProvider>(context, listen: false).getUserDetails().then(
-        (value) => Provider.of<AuthProvider>(context, listen: false)
-                .getPartyList()
-                .then((value) {
-              setState(() {
-                isLoading = false;
-              });
-            }));
+    Provider.of<AuthProvider>(context, listen: false)
+        .getUserDetails()
+        .then((value) async {
+      await Provider.of<EntryProvider>(context, listen: false).getEntryList();
+      await Provider.of<EntryProvider>(context, listen: false).getPartyList();
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   @override
@@ -133,6 +138,11 @@ class _LandingScreenState extends State<LandingScreen> {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           await prefs.clear();
+                          var partyBox = Hive.box<PartyModel>('partyBox');
+                          await partyBox.deleteAll(partyBox.keys);
+                          var entryBox = Hive.box<PartyModel>('entryBox');
+                          await entryBox.deleteAll(entryBox.keys);
+
                           if (context.mounted) {
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
